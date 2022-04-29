@@ -2,7 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 from time import sleep
 
-class Player():
+class Player(Sprite):
 
     "Class to Represent players of the wali (oware) game."
     def __init__(self, num, name = None):

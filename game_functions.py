@@ -3,7 +3,7 @@ from pygame.constants import K_1, K_2, K_3, K_4, K_5, K_6
 import sys
 
 
-def check_events():
+def check_events(stats, play_button, board):
     '''Check for events from the user.'''
     for event in pygame.event.get():
         # Quit game if user clicks the close button.
@@ -14,6 +14,9 @@ def check_events():
         # Handle mouse cicks.
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
+            if play_button.rect.collidepoint((mouse_x, mouse_y)):
+                stats.game_active = True
+                board.draw()
 
         # Check for key presses
         if event.type == pygame.KEYDOWN:
@@ -35,18 +38,16 @@ def get_move(player, pick_from, board):
     '''Use the pick_from value provided by the user to initiate player movement.'''
     player.move(pick_from, board)
 
-def update_screen(board, stats):
+def update_screen(board, stats, play_button):
     '''Update the pygame screen in accordance with the current
     state of the board and game settings.'''
 
     # Draw and update board on screen if game is active.
     # By default, game_active = False
     if not stats.game_active:
-        board.draw
-    
-    board.update()
-
-    ##   play_button.draw()
+        play_button.draw()
+    else:
+        board.update()
 
 
 def can_proceed(board, stats, turn, font, screen, gs):
