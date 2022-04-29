@@ -5,9 +5,15 @@ from time import sleep
 class Player():
 
     "Class to Represent players of the wali (oware) game."
-    def __init__(self, num, name = None,):
+    def __init__(self, num, name = None):
+        # Initialize player identifiers
         self.num = num
         self.name = name
+
+        # While player is moving, use the potentialWins variable to keep track of
+        # the holes player adds to in the opponent's side.
+        # This will be used to determine if player's move resulted in a gain or not.
+        self.potentialWins = []
         
 
     def move(self, pick_from, board):
@@ -15,10 +21,7 @@ class Player():
         Player picks marbles from a non-empty hole on his side and
         adds one marble to all subsequent holes till the marbles he picked
         finishes.'''
-        # While player is moving, use the potentialWins variable to keep track of 
-        # the holes player adds to in the opponent's side.
-        # This will be used to determine if player's move resulted in a gain or not.
-        potentialWins = []
+        
 
         # Handle movement for player 1.
         if self.num == 1:
@@ -31,9 +34,9 @@ class Player():
 
                 # Check if player 1 is adding to the opponent's side.
                 if 6 <= add_to <= 11:
-                    potentialWins.append(add_to)
+                    self.potentialWins.append(add_to)
                 else:
-                    potentialWins = []
+                    self.potentialWins = []
                 board.board[add_to] += 1
                 board.update()
                 pygame.display.update()
@@ -41,7 +44,7 @@ class Player():
                 marbles_picked -= 1
                 add_to += 1
 
-            self.handleWin(potentialWins)
+            self.handleWin(self.potentialWins, board)
 
         # Handle movement for player 2.
         elif self.num == 2:
@@ -54,9 +57,9 @@ class Player():
 
                 # Check if player 2 is adding to the opponent's side.
                 if 0 <= add_to <= 5:
-                    potentialWins.append(add_to)
+                    self.potentialWins.append(add_to)
                 else:
-                    potentialWins = []
+                    self.potentialWins = []
                 board.board[add_to] += 1
                 board.update()
                 pygame.display.update()
@@ -64,7 +67,7 @@ class Player():
                 marbles_picked -= 1
                 add_to += 1
         
-            self.handleWin(potentialWins)
+            self.handleWin(self.potentialWins, board)
 
     def handleWin(self, potentialWins, board):
         '''Keep track of player's movement to determine if move resulted in scoring
@@ -79,30 +82,38 @@ class Player():
         if self.num == 1:
             for ndx in potentialWins[::-1]:
                 if 2 <= board.board[ndx] <= 3:
-                    board.p1_wins += board.board[ndx]
+                    marbles_won = board.board[ndx]
+                    board.p1_wins += marbles_won
                     board.board[ndx] = 0
+                    pygame.display.update()
+                    sleep(0.27)
                 else:
                     break
 
             # If player 1's move resulted in scoring from all holes in the
             # opponent's side, leave the marbles in the first hole to the opponent.
-            if len(potentialWins) > 1 and sum(board.board[6:12:1]) == 0:
-                board.board[0] = marbles_won
+            if len(self.potentialWins) > 1 and sum(board.board[6:12:1]) == 0:
+                board.board[6] = marbles_won
                 board.p1_wins -= marbles_won
+                pygame.display.update()
+                sleep(0.27)
 
         # Handle wins for player 2.
         elif self.num == 2:
             for ndx in potentialWins[::-1]:
                 if 2 <= board.board[ndx] <= 3:
-                    marbles_won = self.board_state[ndx]
+                    marbles_won = board.board[ndx]
                     board.p2_wins += marbles_won
                     board.board[ndx] = 0
+                    pygame.display.update()
+                    sleep(0.27)
                 else:
                     break
             
             # If player 2's move resulted in scoring from all holes in the
             # opponent's side, leave the marbles in the first hole to the opponent.
-            if len(potentialWins) > 1 and sum(board.board[0:6:1]) == 0:
+            if len(self.potentialWins) > 1 and sum(board.board[0:6:1]) == 0:
                 board.board[0] = marbles_won
                 board.p2_wins -= marbles_won
-                
+                pygame.display.update()
+                sleep(0.27)
