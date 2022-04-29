@@ -32,8 +32,7 @@ def check_events():
             
 
 def get_move(player, pick_from, board):
-    '''Check for key presses from user and get pick_from value
-    from user.'''
+    '''Use the pick_from value provided by the user to initiate player movement.'''
     player.move(pick_from, board)
 
 def update_screen(board, stats):
