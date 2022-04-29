@@ -34,10 +34,10 @@ def main():
 
         # Display Marbles won by each player on the screen.
         winAlertOne = font.render(("P-1 Marbles Won: " + str(board.p1_wins)),
-                True, [225,194,194], gs.bg_color)
+                True, [225,194,194], [0,0,0])
 
-        winAlertTwo = font.render(("P-2 Marbles Won: " + str(board.p2_wins)),
-                True, [215,194,194], gs.bg_color)
+        winAlertTwo = font.render(("P-2 Marbles Won: " + str(board.p1_wins)),
+                True, [215,194,194], [0,0,0])
 
         screen.blit(winAlertOne, [20,636])
         screen.blit(winAlertTwo, [20,20])
@@ -77,7 +77,6 @@ def main():
         gf.update_screen(board, stats)
         pygame.display.update()
         pygame.display.flip()
-
 
 
 if __name__ == '__main__':
