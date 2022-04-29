@@ -1,6 +1,5 @@
 # Wali/Oware Game In Python
-Current code only provides basic game logic and gui.
-The handle_wins method in the Player class doesn't work at the moment.
-Currenlty working on a fix and other essential functionalities and
-will update accordingly.
-But, feel free to try it out and make changes/suggestions.
+Basic Graphical User Interface based implementation
+of the popular Wali (in Dagbani)/Oware (in Twi, and as is popularly known)
+board game of the mancala board games family that permeates much of
+Sub-Sahara Africa, using pygame and python.
