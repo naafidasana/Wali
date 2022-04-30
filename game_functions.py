@@ -53,15 +53,15 @@ def update_screen(board, stats, play_button):
 def check_winner(board, gs, font, screen):
     if board.p1_wins > board.p2_wins:
         alert = font.render("Player One Won", True, [255,255,255], gs.bg_color)
-        screen.blit(alert, [300, 120])
+        screen.blit(alert, [500, 600])
 
     elif board.p2_wins > board.p1_wins:
         alert = font.render("Player Two Won", True, [255,255,255], gs.bg_color)
-        screen.blit(alert, [300, 120])
+        screen.blit(alert, [500, 600])
 
     else:
         alert = font.render("Game Ended in Draw", True, [255,255,255], gs.bg_color)
-        screen.blit(alert, [300, 120])
+        screen.blit(alert, [500, 600])
 
 
 def can_proceed(board, stats, turn, font, screen, gs):
@@ -69,12 +69,12 @@ def can_proceed(board, stats, turn, font, screen, gs):
     When there are less than 6 marbles left, game can drag on for a long time.
     We will thus end the game and add the marbles in each player's side to his
     wins.'''
-    if sum(board.board) < 6:
+    if sum(board.board) <= 3:
         stats.game_active = False
 
         board.draw()
         alert = font.render("Game May Drag On For A Long Time. Game Ended.", True, [255,255,255], gs.bg_color)
-        screen.blit(alert, [300, 20])
+        screen.blit(alert, [300, 60])
 
         # Alert as to who won the game.
         check_winner(board, gs, font, screen)
@@ -92,7 +92,7 @@ def can_proceed(board, stats, turn, font, screen, gs):
         # Notify players of current state.
         alert = font.render("Player One has No Marbles To Move!!! Game Ended", True, [255,255,255], gs.bg_color)
         board.draw()    # To clear all outputs to the screen
-        screen.blit(alert, [300, 20])
+        screen.blit(alert, [300, 60])
 
         # Alert as to who won the game.
         check_winner(board, gs, font, screen)
@@ -105,9 +105,9 @@ def can_proceed(board, stats, turn, font, screen, gs):
             board.board[ndx] = 0
 
         # Notify players of current state.
-        alert = font.render("Player One has No Marbles To Move!!! Game Ended", True, [255,255,255], gs.bg_color)
+        alert = font.render("Player Two has No Marbles To Move!!! Game Ended", True, [255,255,255], gs.bg_color)
         board.draw()    # To clear all outputs to the screen
-        screen.blit(alert, [300, 20])
+        screen.blit(alert, [300, 60])
 
         # Alert as to who won the game
         check_winner(board, gs, font, screen)
