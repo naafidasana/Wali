@@ -38,6 +38,7 @@ def main():
         if not stats.game_active:
             # Check if mous is clicked
             gf.check_events(stats, play_button, board)
+            board.reset()
 
         else:    
             pick_from = gf.check_events(stats, play_button, board)
@@ -55,7 +56,7 @@ def main():
 
                 if turn == 1:
                     # Check if game can proceed.
-                    #gf.can_proceed(board, stats, turn, font, screen, gs)
+                    gf.can_proceed(board, stats, turn, font, screen, gs)
 
                     alert = font.render("Player One's Turn", True, [255,255,255], gs.bg_color)
                     screen.blit(alert, [500, 20])
@@ -69,7 +70,7 @@ def main():
 
                 elif turn == 2:
                     # Check if game can proceed.
-                    #gf.can_proceed(board, stats, turn, font, screen, gs)
+                    gf.can_proceed(board, stats, turn, font, screen, gs)
             
                     alert = font.render("Player Two's Turn", True, [255,255,255], gs.bg_color)
                     screen.blit(alert, [500, 20])

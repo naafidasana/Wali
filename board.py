@@ -28,6 +28,9 @@ class Board(Sprite):
         self.board_rect.y = 0
         self.draw()
 
+    def reset(self):
+        self.board = [4] * 12
+
     def draw(self):
         """ Draw an oware board with the appropriate number of marbles
         in each hole onto the screen."""

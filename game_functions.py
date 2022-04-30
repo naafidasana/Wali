@@ -50,6 +50,20 @@ def update_screen(board, stats, play_button):
         board.update()
 
 
+def check_winner(board, gs, font, screen):
+    if board.p1_wins > board.p2_wins:
+        alert = font.render("Player One Won", True, [255,255,255], gs.bg_color)
+        screen.blit(alert, [300, 120])
+
+    elif board.p2_wins > board.p1_wins:
+        alert = font.render("Player Two Won", True, [255,255,255], gs.bg_color)
+        screen.blit(alert, [300, 120])
+
+    else:
+        alert = font.render("Game Ended in Draw", True, [255,255,255], gs.bg_color)
+        screen.blit(alert, [300, 120])
+
+
 def can_proceed(board, stats, turn, font, screen, gs):
     '''Determine if game can proceed.
     When there are less than 6 marbles left, game can drag on for a long time.
@@ -57,6 +71,14 @@ def can_proceed(board, stats, turn, font, screen, gs):
     wins.'''
     if sum(board.board) < 6:
         stats.game_active = False
+
+        board.draw()
+        alert = font.render("Game May Drag On For A Long Time. Game Ended.", True, [255,255,255], gs.bg_color)
+        screen.blit(alert, [300, 20])
+
+        # Alert as to who won the game.
+        check_winner(board, gs, font, screen)
+
 
     # When it's a particular player's turn and he/she
     # has no marbles to move with, end game.
@@ -67,9 +89,13 @@ def can_proceed(board, stats, turn, font, screen, gs):
             board.p1_wins += board.board[ndx]
             board.board[ndx] = 0
 
-            # Notify players of current state.
-            alert = font.render("Player One has No Marbles To Move!!! Game Ended", True, [255,255,255], gs.bg_color)
-            screen.blit(alert, [300, 20])
+        # Notify players of current state.
+        alert = font.render("Player One has No Marbles To Move!!! Game Ended", True, [255,255,255], gs.bg_color)
+        board.draw()    # To clear all outputs to the screen
+        screen.blit(alert, [300, 20])
+
+        # Alert as to who won the game.
+        check_winner(board, gs, font, screen)
 
     elif turn == 2 and sum(board.board[6:12:1]) == 0:
         stats.game_active = False
@@ -78,6 +104,10 @@ def can_proceed(board, stats, turn, font, screen, gs):
             board.p2_wins += board.board[ndx]
             board.board[ndx] = 0
 
-            # Notify players of current state.
-            alert = font.render("Player One has No Marbles To Move!!! Game Ended", True, [255,255,255], gs.bg_color)
-            screen.blit(alert, [300, 20])
+        # Notify players of current state.
+        alert = font.render("Player One has No Marbles To Move!!! Game Ended", True, [255,255,255], gs.bg_color)
+        board.draw()    # To clear all outputs to the screen
+        screen.blit(alert, [300, 20])
+
+        # Alert as to who won the game
+        check_winner(board, gs, font, screen)
